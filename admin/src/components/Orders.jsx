@@ -3,6 +3,8 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import View from "./View";
+import LogoutButton from "./LogoutButton";
+import PriceControlBar from "./PriceControlBar";
 
 const Orders = () => {
   const [data, setData] = useState(null);
@@ -37,6 +39,8 @@ const Orders = () => {
 
   return (
     <>
+      <PriceControlBar />
+      <LogoutButton />
       <div className="w-[50%] h-[100%] bg-gray-200">
         <h3 className="text-center text-[19px] my-[10px] font-semibold">
           All Orders

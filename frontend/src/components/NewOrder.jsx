@@ -3,6 +3,8 @@ import axios from 'axios'
 
 const NewOrder = () => {
   const [inputs, setInputs] = useState(null)
+  const [petrol, setPetrol] = useState(0)
+  const [diesel, setDiesel] = useState(0)
   var total = 0
   
   const totalRef = useRef()
@@ -13,13 +15,31 @@ const NewOrder = () => {
     })
   }
 
+  useEffect(() => {
+      const getPetrolRate = () => {
+          axios.get(`http://localhost:5000/api/prices/pet`).then((res) => {
+              setPetrol(res.data[0])
+          }).catch((err) => {
+              console.log(err)
+          })
+      }
+      const getDieselRate = () => {
+          axios.get(`http://localhost:5000/api/prices/die`).then((res) => {
+              setDiesel(res.data[0])
+          }).catch((err) => {
+              console.log(err)
+          })
+      }
+      getPetrolRate()
+      getDieselRate()
+  }, [])
+
   if (inputs?.category === 'petrol') {
-    total = inputs?.litre * 105
+    total = inputs?.litre * petrol?.petrol
   } else if (inputs?.category === 'diesal') {
-    total = inputs?.litre * 100
+    total = inputs?.litre * diesel?.diesel
   }
 
-  console.log(inputs)
   useEffect(() => {
     totalRef.current.value = total || 0
   }, [total])
